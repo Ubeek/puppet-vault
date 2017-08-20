@@ -76,6 +76,8 @@ class vault (
   $service_provider    = $::vault::params::service_provider,
   $manage_service      = $::vault::params::manage_service,
   $manage_service_file = $::vault::params::manage_service_file,
+  $manage_service_vars = $::vault::params::manage_service_vars,
+  $service_vars        = $::vault::params::service_vars,
   $backend             = $::vault::params::backend,
   $manage_backend_dir  = $::vault::params::manage_backend_dir,
   $listener            = $::vault::params::listener,
@@ -121,6 +123,10 @@ class vault (
 
   if $max_lease_ttl {
     validate_string($max_lease_ttl)
+  }
+
+  if $service_vars {
+    validate_hash($service_vars)
   }
 
   # lint:ignore:140chars

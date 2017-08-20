@@ -48,6 +48,9 @@ class vault::params {
 
   $manage_service_file = undef
 
+  $manage_service_vars = undef
+  $service_vars = undef
+
   case $::osfamily {
     'Debian': {
       case $::lsbdistcodename {

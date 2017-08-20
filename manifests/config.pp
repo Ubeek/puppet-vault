@@ -78,6 +78,16 @@ class vault::config {
           group  => 'root',
           mode   => '0755',
         }
+        if $manage_service_vars {
+          file { '/etc/default/vault':
+            ensure  => file,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            content => template('vault/vault.service-vars.erb'),
+            notify  => Exec['systemd-reload'],
+          }
+        }
       }
       'systemd': {
         file { '/etc/systemd/system/vault.service':
@@ -87,6 +97,17 @@ class vault::config {
           mode    => '0644',
           content => template('vault/vault.systemd.erb'),
           notify  => Exec['systemd-reload'],
+        }
+        if $manage_service_vars {
+          file { '/etc/systemd/system/vault.service.d/10-proxy.conf':
+            ensure  => file,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            content => template('vault/vault.service-vars.erb'),
+            notify  => Exec['systemd-reload'],
+          }
+        }
         }
         if ! defined(Exec['systemd-reload']) {
           exec {'systemd-reload':
@@ -104,6 +125,16 @@ class vault::config {
           group   => 'root',
           mode    => '0755',
           content => template('vault/vault.initd.erb'),
+        }
+        if $manage_service_vars {
+          file { '/etc/sysconfig/vault':
+            ensure  => file,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            content => template('vault/vault.service-vars.erb'),
+            notify  => Exec['systemd-reload'],
+          }
         }
       }
       default: {

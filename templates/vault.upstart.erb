@@ -14,6 +14,12 @@ env GROUP=<%= scope['vault::group'] %>
 env PID_FILE=/var/run/vault.pid
 env LOG_FILE=/var/log/vault.log
 
+<% if scope['vault::manage_system_vars'] -%>
+script
+    [ -f /etc/default/vault ] && . /etc/default/vault
+end script
+<% end -%>
+
 script
     export GOMAXPROCS=${GOMAXPROCS:-<%= scope['vault::num_procs'] %>}
     [ -e /etc/default/$UPSTART_JOB ] && . /etc/default/$UPSTART_JOB

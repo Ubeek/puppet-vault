@@ -1,0 +1,4 @@
+<% if scope['vault::service_provider'] == 'systemd' %> [Service] <% end %>
+<% scope['vault::service_vars'].each do |key, value| -%>
+    <%= key %>=<%= value %>
+<% end %>
