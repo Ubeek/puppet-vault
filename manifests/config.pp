@@ -108,7 +108,6 @@ class vault::config {
             notify  => Exec['systemd-reload'],
           }
         }
-        }
         if ! defined(Exec['systemd-reload']) {
           exec {'systemd-reload':
             command     => 'systemctl daemon-reload',
